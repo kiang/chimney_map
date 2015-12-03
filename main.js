@@ -45,7 +45,9 @@ function initialize() {
             map.setZoom(15);
             map.setCenter(this.getPosition());
             var currentKey = this.data['管制編號'];
-            var contentText = '<table class="table table-bordered">';
+            var contentText = '<table class="table table-bordered"><thead><tr>';
+            contentText += '<th>管制點</th><th>管制項目</th><th>檢驗時間</th><th>檢驗數值</th></tr></thead>';
+            contentText += '<tbody>';
             $.each(data, function (b, l) {
                 if (l[0] === currentKey) {
                     contentText += '<tr>';
@@ -67,7 +69,7 @@ function initialize() {
                     contentText += '<tr>';
                 }
             });
-            contentText += '</table>';
+            contentText += '</tbody></table>';
             $('#content').html(contentText);
         });
         bounds.extend(geoPoint);
