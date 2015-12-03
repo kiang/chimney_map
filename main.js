@@ -1,6 +1,6 @@
 $.ajaxSetup({async: false});
 
-var map, points, info, bounds, data, codes = {};
+var map, points, info, bounds, data, codes = {}, meta;
 
 $.getJSON('http://ks-opendata-community.github.io/chimney/data/工廠清單.json', {}, function (p) {
     points = p;
@@ -14,6 +14,7 @@ $.getJSON('http://ks-opendata-community.github.io/chimney/data/項目代碼.json
 
 $.get('http://ks-opendata-community.github.io/chimney/data/daily/latest.csv', {}, function (p) {
     data = $.csv.toArrays(p);
+    meta = data.shift();
     data.sort(function (a, b) {
         return b[3] - a[3];
     });
@@ -41,7 +42,7 @@ function initialize() {
         marker.addListener('click', function (cp) {
             info.setContent(this.data['工廠']);
             info.open(map, this);
-            $('#title').html(this.data['工廠']);
+            $('#title').html(this.data['工廠'] + ' @ ' + meta[0]);
             map.setZoom(15);
             map.setCenter(this.getPosition());
             var currentKey = this.data['管制編號'];
@@ -76,6 +77,11 @@ function initialize() {
     });
 
     map.fitBounds(bounds);
+    
+    $('a.bounds-reset').click(function() {
+        map.fitBounds(bounds);
+        return false;
+    });
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
