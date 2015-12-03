@@ -119,32 +119,58 @@ function initialize() {
     }
 
     function showData(currentKey) {
-        var contentText = '<table class="table table-bordered"><thead><tr>';
-        contentText += '<th>管制點</th><th>管制項目</th><th>檢驗時間</th><th>檢驗數值</th></tr></thead>';
-        contentText += '<tbody>';
-        $.each(data, function (b, l) {
-            if (l[0] === currentKey) {
-                contentText += '<tr>';
-                for (i in l) {
-                    switch (i) {
-                        case '0':
-                            break;
-                        case '2':
-                            k = l[i].replace(' ', '');
-                            contentText += '<td>' + codes[k].DESP + '(' + codes[k].ABBR + ')</td>';
-                            break;
-                        case '4':
-                            contentText += '<td>' + l[i] + ' ' + codes[k].UNIT + '</td>';
-                            break;
-                        default:
-                            contentText += '<td>' + l[i] + '</td>';
-                    }
+        var contentText = '';
+        var chartData = {}, cpKeys = {};
+        /*
+         * 0: 工廠代號
+         * 1: 管制點 [2]
+         * 2: 管制項目 [1] - chartKey
+         * 3: 時間 [3]
+         * 4: 數值 [4]
+         */
+        $.each(data, function (b, line) {
+            if (line[0] === currentKey) {
+                var chartKey = line[2];
+                if (!chartData[chartKey]) {
+                    chartData[chartKey] = {};
+                    contentText += '<div id="' + chartKey + '" style="height: 400px; margin: 0 auto">' + chartKey + '</div>';
                 }
-                contentText += '<tr>';
+                if (!chartData[chartKey][line[1]]) {
+                    chartData[chartKey][line[1]] = {};
+                }
+                chartData[chartKey][line[1]][line[3]] = parseFloat(line[4]);
             }
         });
-        contentText += '</tbody></table>';
         $('#content').html(contentText);
+
+        for (k in chartData) {
+            var chartLines = [], categories = [];
+            var firstPoint = false;
+            for (p in chartData[k]) {
+                var chartLine = {
+                    name: p,
+                    data: []
+                };
+                for (t in chartData[k][p]) {
+                    chartLine.data.push(chartData[k][p][t]);
+                }
+                if (false === firstPoint) {
+                    firstPoint = true;
+                    for (t in chartData[k][p]) {
+                        categories.push(t);
+                    }
+                }
+                chartLines.push(chartLine);
+            }
+            $('#' + k).highcharts({
+                title: {text: codes[k].DESP + ' (' + codes[k].UNIT + ')'},
+                xAxis: {
+                    categories: categories
+                },
+                yAxis: {text: 'value'},
+                series: chartLines
+            });
+        }
     }
 }
 

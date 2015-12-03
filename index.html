@@ -47,15 +47,14 @@
     <body>
         <script>
             (function (d, s, id) {
-                var js, fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id))
+            var js, fjs = d.getElementsByTagName(s)[0];
+                    if (d.getElementById(id))
                     return;
-                js = d.createElement(s);
-                js.id = id;
-                js.src = "//connect.facebook.net/zh_TW/sdk.js#xfbml=1&appId=1393405437614114&version=v2.3";
-                fjs.parentNode.insertBefore(js, fjs);
-            }(document, "script", "facebook-jssdk"));
-        </script>
+                    js = d.createElement(s);
+                    js.id = id;
+                    js.src = "//connect.facebook.net/zh_TW/sdk.js#xfbml=1&appId=1393405437614114&version=v2.3";
+                    fjs.parentNode.insertBefore(js, fjs);
+            }(document, "script", "facebook-jssdk"));        </script>
         <div class="container">
             <div class="row">
                 <p class="hidden-sm hidden-xs">&nbsp;</p>
@@ -100,6 +99,7 @@
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-csv/0.71/jquery.csv-0.71.min.js"></script>
         <script src="//maps.googleapis.com/maps/api/js?v=3"></script>
+        <script src="//code.highcharts.com/highcharts.js"></script>
         <script src="main.js"></script>
     </body>
 </html>
