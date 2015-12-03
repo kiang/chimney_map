@@ -1,9 +1,15 @@
 $.ajaxSetup({async: false});
 
-var map, points, info, bounds, data;
+var map, points, info, bounds, data, codes = {};
 
 $.getJSON('http://ks-opendata-community.github.io/chimney/data/工廠清單.json', {}, function (p) {
     points = p;
+});
+
+$.getJSON('http://ks-opendata-community.github.io/chimney/data/項目代碼.json', {}, function (p) {
+    $.each(p, function (k, v) {
+        codes[v['ITEM']] = v;
+    });
 });
 
 $.get('http://ks-opendata-community.github.io/chimney/data/daily/latest.csv', {}, function (p) {
@@ -44,8 +50,18 @@ function initialize() {
                 if (l[0] === currentKey) {
                     contentText += '<tr>';
                     for (i in l) {
-                        if (i > 0) {
-                            contentText += '<td>' + l[i] + '</td>';
+                        switch(i) {
+                            case '0':
+                                break;
+                            case '2':
+                                k = l[i].replace(' ', '');
+                                contentText += '<td>' + codes[k].DESP + '(' + codes[k].ABBR + ')</td>';
+                                break;
+                            case '4':
+                                contentText += '<td>' + l[i] + ' ' + codes[k].UNIT + '</td>';
+                                break;
+                            default:
+                                contentText += '<td>' + l[i] + '</td>';
                         }
                     }
                     contentText += '<tr>';
