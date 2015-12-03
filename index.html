@@ -9,6 +9,7 @@
         <meta property="og:type" content="website">
         <meta property="og:image" content="http://kiang.github.io/chimney_map/og_image.png">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
         <style>
             html, body {
                 height: 100%;
@@ -72,6 +73,9 @@
                                 &nbsp;顯示全部
                             </a>
                         </div>
+                        <h2 class="pull-right col-md-4">
+                            <input type="text" id="selectDate" class="col-md-12" />
+                        </h2>
                         <h3 id="title">點選地圖圖示檢視資料</h3>
                         <div id="content"></div>
                     </div>
@@ -93,6 +97,7 @@
         </div>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-csv/0.71/jquery.csv-0.71.min.js"></script>
         <script src="//maps.googleapis.com/maps/api/js?v=3"></script>
         <script src="main.js"></script>
