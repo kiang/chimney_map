@@ -2,6 +2,7 @@ $.ajaxSetup({async: false});
 
 var map, points, info, bounds, data, codes = {}, meta, currentDate, loadedData = {};
 var dateBegin = new Date('2015-11-16'), dateEnd, firstCsv = true, selectedPoint = false;
+var standards = {}, markers = {};
 
 $.getJSON('http://ks-opendata-community.github.io/chimney/data/工廠清單.json', {}, function (p) {
     points = p;
@@ -11,6 +12,28 @@ $.getJSON('http://ks-opendata-community.github.io/chimney/data/項目代碼.json
     $.each(p, function (k, v) {
         codes[v['ITEM']] = v;
     });
+});
+
+$.get('http://ks-opendata-community.github.io/chimney/data/警戒值.csv', {}, function (p) {
+    var stack = $.csv.toArrays(p);
+    stack.shift();
+    /*
+     * CNO,POLNO,ITEM,STD
+     */
+    for (i in stack) {
+        if (!standards[stack[i][0]]) {
+            standards[stack[i][0]] = {};
+        }
+        if (!standards[stack[i][0]][stack[i][2]]) {
+            standards[stack[i][0]][stack[i][2]] = {};
+        }
+        standards[stack[i][0]][stack[i][2]][stack[i][1]] = stack[i][3];
+        var itemKey = '9' + stack[i][2].slice(-2);
+        if (!standards[stack[i][0]][itemKey]) {
+            standards[stack[i][0]][itemKey] = {};
+        }
+        standards[stack[i][0]][itemKey][stack[i][1]] = stack[i][3];
+    }
 });
 
 loadCsv('http://ks-opendata-community.github.io/chimney/data/daily/latest.csv');
@@ -43,6 +66,7 @@ function initialize() {
             selectedPoint = this.data['管制編號'];
             showData(selectedPoint);
         });
+        markers[p['管制編號']] = marker;
         bounds.extend(geoPoint);
     });
 
@@ -108,8 +132,6 @@ function initialize() {
             showData(selectedPoint);
         }
     });
-
-
 
     function getDateStr(dateObj) {
         var m = dateObj.getMonth() + 1;
@@ -190,8 +212,17 @@ function initialize() {
                 }
                 chartLines.push(chartLine);
             }
+            var subtitle = '';
+            if(standards[currentKey][k]) {
+                subtitle = '<a class="pop-standard" href="#" data-id="' + currentKey + '" data-item="' + k + '">排放標準</a>';
+            }
             $('#' + k).highcharts({
                 title: {text: codes[k].DESP + ' (' + codes[k].UNIT + ')'},
+                subtitle: {
+                    align: 'right',
+                    text: subtitle,
+                    useHTML: true
+                },
                 xAxis: {
                     categories: categories
                 },
@@ -199,6 +230,20 @@ function initialize() {
                 series: chartLines
             });
         }
+        
+        $('.pop-standard').click(function() {
+            var self = $(this), boxid = self.attr('data-id'), boxitem = self.attr('data-item');
+            var txt = '<p>';
+            for(k in standards[boxid][boxitem]) {
+                txt += k + ': ' + standards[boxid][boxitem][k] + ' ' + codes[boxitem].UNIT + '<br />';
+            }
+            txt += '</p>';
+            $('#dialog').html(txt).dialog({
+                width: 500,
+                title: codes[boxitem].DESP + '排放標準 @ ' + markers[boxid]['data']['工廠']
+            });
+            return false;
+        });
     }
 }
 
