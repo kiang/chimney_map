@@ -97,9 +97,6 @@ function initialize() {
             meta = data[0];
             currentDate = new Date(meta[0]);
             $('input#selectDate').val(meta[0]);
-            data.sort(function (a, b) {
-                return b[3] - a[3];
-            });
         }
         if (false !== selectedPoint) {
             showData(selectedPoint);
@@ -185,9 +182,6 @@ function loadCsv(csvUrl) {
             dateEnd = new Date(meta[0]);
         }
         $('input#selectDate').val(meta[0]);
-        data.sort(function (a, b) {
-            return b[3] - a[3];
-        });
     });
 }
 
