@@ -2,7 +2,7 @@ $.ajaxSetup({async: false});
 
 var map, points, info, bounds, data, codes = {}, meta, currentDate, loadedData = {};
 var dateBegin = new Date('2015-11-16'), dateEnd, firstCsv = true, selectedPoint = false;
-var standards = {}, markers = {}, overlays = [];
+var standards = {}, markers = {}, overlays = [], markerClicked = false;
 
 $.getJSON('http://ks-opendata-community.github.io/chimney/data/工廠清單.json', {}, function (p) {
     points = p;
@@ -49,6 +49,7 @@ function initialize() {
     info = new google.maps.InfoWindow();
     bounds = new google.maps.LatLngBounds();
 
+    var pointSelectOptions = '<option value="">---請選擇---</option>';
     $.each(points, function (k, p) {
         var geoPoint = (new google.maps.LatLng(parseFloat(p.Lat), parseFloat(p.Lng)));
         var marker = new google.maps.Marker({
@@ -65,6 +66,9 @@ function initialize() {
             map.setCenter(this.getPosition());
             selectedPoint = this.data['管制編號'];
             showData(selectedPoint);
+            markerClicked = true;
+            $('#pointSelect').val(selectedPoint).trigger('change');
+            markerClicked = false;
         });
         markers[p['管制編號']] = marker;
         bounds.extend(geoPoint);
@@ -77,6 +81,17 @@ function initialize() {
             pixelOffset: new google.maps.Size(-25, 0)
         });
         overlays.push(ibLabel);
+
+        pointSelectOptions += '<option value="' + p['管制編號'] + '">' + p['工廠'] + '[' + p['管制編號'] + ']</option>';
+    });
+    $('#pointSelect').html(pointSelectOptions).select2();
+    $('#pointSelect').change(function () {
+        if (false === markerClicked) {
+            var value = $(this).val();
+            if (markers[value]) {
+                new google.maps.event.trigger(markers[value], 'click');
+            }
+        }
     });
 
     google.maps.event.addListener(map, 'zoom_changed', function () {
@@ -153,7 +168,7 @@ function initialize() {
         }
     }
 
-    $('select#chartFilter').change(function () {
+    $('select#chartFilter').select2().change(function () {
         if (false !== selectedPoint) {
             showData(selectedPoint);
         }

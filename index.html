@@ -10,6 +10,7 @@
         <meta property="og:image" content="http://kiang.github.io/chimney_map/og_image.png">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" />
         <style>
             html, body {
                 height: 100%;
@@ -92,6 +93,9 @@
                             <option value="all">全部顯示</option>
                         </select>
                         <hr />
+                        管制點：
+                        <select id="pointSelect" class="col-md-8 pull-right"></select>
+                        <hr />
                         <p>&nbsp;</p>
                         <div id="fb-root"></div>
                         <div class="fb-page" data-href="https://www.facebook.com/k.olc.tw" data-width="800" data-hide-cover="true" data-show-facepile="true" data-show-posts="false"></div>
@@ -112,6 +116,7 @@
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-csv/0.71/jquery.csv-0.71.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"></script>
         <script src="//maps.googleapis.com/maps/api/js?v=3"></script>
         <script src="//code.highcharts.com/highcharts.js"></script>
         <script src="infobox.js"></script>
