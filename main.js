@@ -103,6 +103,12 @@ function initialize() {
         }
     }
 
+    $('select#chartFilter').change(function () {
+        if (false !== selectedPoint) {
+            showData(selectedPoint);
+        }
+    });
+
 
 
     function getDateStr(dateObj) {
@@ -117,7 +123,11 @@ function initialize() {
 
     function showData(currentKey) {
         var contentText = '';
-        var chartData = {}, cpKeys = {};
+        var chartData = {}, defaultChartTypes = ['911', '922', '923', '926'];
+        var chartType = $('select#chartFilter').val();
+        if (!chartType) {
+            chartType = 'default';
+        }
         /*
          * 0: 工廠代號
          * 1: 管制點 [2]
@@ -127,15 +137,36 @@ function initialize() {
          */
         $.each(data, function (b, line) {
             if (line[0] === currentKey) {
-                var chartKey = line[2];
-                if (!chartData[chartKey]) {
-                    chartData[chartKey] = {};
-                    contentText += '<div id="' + chartKey + '" style="height: 400px; margin: 0 auto">' + chartKey + '</div>';
+                var chartCheck = true;
+                switch (chartType) {
+                    case 'default':
+                        if (-1 === defaultChartTypes.indexOf(line[2])) {
+                            chartCheck = false;
+                        }
+                        break;
+                    case 'avg':
+                        if (line[2].substr(0, 1) !== '2') {
+                            chartCheck = false;
+                        }
+                        break;
+                    case 'real':
+                        if (line[2].substr(0, 1) !== '9') {
+                            chartCheck = false;
+                        }
+                        break;
                 }
-                if (!chartData[chartKey][line[1]]) {
-                    chartData[chartKey][line[1]] = {};
+                if (chartCheck) {
+                    var chartKey = line[2];
+                    if (!chartData[chartKey]) {
+                        chartData[chartKey] = {};
+                        contentText += '<div id="' + chartKey + '" style="height: 400px; margin: 0 auto">' + chartKey + '</div>';
+                    }
+                    if (!chartData[chartKey][line[1]]) {
+                        chartData[chartKey][line[1]] = {};
+                    }
+                    chartData[chartKey][line[1]][line[3]] = parseFloat(line[4]);
                 }
-                chartData[chartKey][line[1]][line[3]] = parseFloat(line[4]);
+
             }
         });
         $('#content').html(contentText);
