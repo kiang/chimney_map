@@ -191,59 +191,68 @@ function initialize() {
 
             }
         });
+        var placeHolderCheck = true;
+        if (contentText === '') {
+            contentText = '<h3>選擇的管制點沒有圖表可以顯示，可以試著從右邊地圖下方的選單調整圖表過濾規則顯示</h3>';
+            placeHolderCheck = false;
+        }
         $('#content').html(contentText);
 
-        for (k in chartData) {
-            var chartLines = [], categories = [];
-            var firstPoint = false;
-            for (p in chartData[k]) {
-                var chartLine = {
-                    name: p,
-                    data: []
-                };
-                for (t in chartData[k][p]) {
-                    chartLine.data.push(chartData[k][p][t]);
-                }
-                if (false === firstPoint) {
-                    firstPoint = true;
+        if (placeHolderCheck) {
+            for (k in chartData) {
+                var chartLines = [], categories = [];
+                var firstPoint = false;
+                for (p in chartData[k]) {
+                    var chartLine = {
+                        name: p,
+                        data: []
+                    };
                     for (t in chartData[k][p]) {
-                        categories.push(t);
+                        chartLine.data.push(chartData[k][p][t]);
                     }
+                    if (false === firstPoint) {
+                        firstPoint = true;
+                        for (t in chartData[k][p]) {
+                            categories.push(t);
+                        }
+                    }
+                    chartLines.push(chartLine);
                 }
-                chartLines.push(chartLine);
+                var subtitle = '';
+                if (standards[currentKey][k]) {
+                    subtitle = '<a class="pop-standard" href="#" data-id="' + currentKey + '" data-item="' + k + '">排放標準</a>';
+                }
+                $('#' + k).highcharts({
+                    title: {text: codes[k].DESP + ' (' + codes[k].UNIT + ')'},
+                    subtitle: {
+                        align: 'right',
+                        text: subtitle,
+                        useHTML: true
+                    },
+                    xAxis: {
+                        categories: categories
+                    },
+                    yAxis: {text: 'value'},
+                    series: chartLines
+                });
             }
-            var subtitle = '';
-            if(standards[currentKey][k]) {
-                subtitle = '<a class="pop-standard" href="#" data-id="' + currentKey + '" data-item="' + k + '">排放標準</a>';
-            }
-            $('#' + k).highcharts({
-                title: {text: codes[k].DESP + ' (' + codes[k].UNIT + ')'},
-                subtitle: {
-                    align: 'right',
-                    text: subtitle,
-                    useHTML: true
-                },
-                xAxis: {
-                    categories: categories
-                },
-                yAxis: {text: 'value'},
-                series: chartLines
+
+            $('.pop-standard').click(function () {
+                var self = $(this), boxid = self.attr('data-id'), boxitem = self.attr('data-item');
+                var txt = '<p>';
+                for (k in standards[boxid][boxitem]) {
+                    txt += k + ': ' + standards[boxid][boxitem][k] + ' ' + codes[boxitem].UNIT + '<br />';
+                }
+                txt += '</p>';
+                $('#dialog').html(txt).dialog({
+                    width: 500,
+                    title: codes[boxitem].DESP + '排放標準 @ ' + markers[boxid]['data']['工廠']
+                });
+                return false;
             });
         }
-        
-        $('.pop-standard').click(function() {
-            var self = $(this), boxid = self.attr('data-id'), boxitem = self.attr('data-item');
-            var txt = '<p>';
-            for(k in standards[boxid][boxitem]) {
-                txt += k + ': ' + standards[boxid][boxitem][k] + ' ' + codes[boxitem].UNIT + '<br />';
-            }
-            txt += '</p>';
-            $('#dialog').html(txt).dialog({
-                width: 500,
-                title: codes[boxitem].DESP + '排放標準 @ ' + markers[boxid]['data']['工廠']
-            });
-            return false;
-        });
+
+
     }
 }
 
