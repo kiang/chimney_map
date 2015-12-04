@@ -2,7 +2,7 @@ $.ajaxSetup({async: false});
 
 var map, points, info, bounds, data, codes = {}, meta, currentDate, loadedData = {};
 var dateBegin = new Date('2015-11-16'), dateEnd, firstCsv = true, selectedPoint = false;
-var standards = {}, markers = {};
+var standards = {}, markers = {}, overlays = [];
 
 $.getJSON('http://ks-opendata-community.github.io/chimney/data/工廠清單.json', {}, function (p) {
     points = p;
@@ -57,7 +57,7 @@ function initialize() {
             title: p['工廠']
         });
         marker.data = p;
-        marker.addListener('click', function (cp) {
+        marker.addListener('click', function () {
             info.setContent(this.data['工廠']);
             info.open(map, this);
             $('#title').html(this.data['工廠']);
@@ -68,6 +68,32 @@ function initialize() {
         });
         markers[p['管制編號']] = marker;
         bounds.extend(geoPoint);
+
+        var ibLabel = new InfoBox({
+            content: p['工廠'],
+            position: geoPoint,
+            boxClass: 'labelPoint',
+            closeBoxURL: '',
+            pixelOffset: new google.maps.Size(-25, 0)
+        });
+        overlays.push(ibLabel);
+    });
+
+    google.maps.event.addListener(map, 'zoom_changed', function () {
+        var zoomLevel = map.getZoom();
+        if (zoomLevel < 12) {
+            $.each(overlays, function (i, v) {
+                if (v instanceof InfoBox) {
+                    v.setMap(null);
+                }
+            });
+        } else {
+            $.each(overlays, function (i, v) {
+                if (v instanceof InfoBox) {
+                    v.setMap(map);
+                }
+            });
+        }
     });
 
     map.fitBounds(bounds);
