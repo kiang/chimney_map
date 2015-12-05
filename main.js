@@ -222,7 +222,7 @@ function initialize() {
                     var chartKey = line[2];
                     if (!chartData[chartKey]) {
                         chartData[chartKey] = {};
-                        contentText += '<div id="' + chartKey + '" style="height: 400px; margin: 0 auto">' + chartKey + '</div>';
+                        contentText += '<div id="' + chartKey + '" class="chartBlock">' + chartKey + '</div>';
                     }
                     if (!chartData[chartKey][line[1]]) {
                         chartData[chartKey][line[1]] = {};
@@ -254,14 +254,15 @@ function initialize() {
                     if (false === firstPoint) {
                         firstPoint = true;
                         for (t in chartData[k][p]) {
-                            categories.push(t);
+                            var ft = t.substr(0, 2) + ':' + t.substr(2, 2);
+                            categories.push(ft);
                         }
                     }
                     chartLines.push(chartLine);
                 }
                 var subtitle = '';
                 if (standards[currentKey][k]) {
-                    subtitle = '<a class="pop-standard" href="#" data-id="' + currentKey + '" data-item="' + k + '">排放標準</a>';
+                    subtitle = '<a class="pop-standard" href="#" data-id="' + currentKey + '" data-item="' + k + '"> &gt; 排放標準</a>';
                 }
                 $('#' + k).highcharts({
                     title: {text: codes[k].DESP + ' (' + codes[k].UNIT + ')'},
@@ -271,9 +272,16 @@ function initialize() {
                         useHTML: true
                     },
                     xAxis: {
+                        title: {
+                            text: getDateStr(currentDate)
+                        },
                         categories: categories
                     },
-                    yAxis: {text: 'value'},
+                    yAxis: {
+                        title: {
+                            text: codes[k].UNIT
+                        }
+                    },
                     series: chartLines
                 });
             }
