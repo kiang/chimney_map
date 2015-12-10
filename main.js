@@ -41,10 +41,11 @@ loadCsv('http://ks-opendata-community.github.io/chimney/data/daily/latest.csv');
 function initialize() {
     var showChart = function (theDay, factoryId) {
         var dirtyDate = new Date(theDay);
-        selectedPoint = factoryId;
         if (!isNaN(dirtyDate.getTime())) {
             currentDate = dirtyDate;
-            google.maps.event.trigger(markers[selectedPoint], 'click');
+            if (markers[factoryId]) {
+                new google.maps.event.trigger(markers[factoryId], 'click');
+            }
         }
     };
     var routes = {
