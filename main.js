@@ -39,6 +39,20 @@ $.get('http://ks-opendata-community.github.io/chimney/data/警戒值.csv', {}, f
 loadCsv('http://ks-opendata-community.github.io/chimney/data/daily/latest.csv');
 
 function initialize() {
+    var showChart = function (theDay, factoryId) {
+        var dirtyDate = new Date(theDay);
+        selectedPoint = factoryId;
+        if (!isNaN(dirtyDate.getTime())) {
+            currentDate = dirtyDate;
+            updateData();
+        }
+
+    };
+    var routes = {
+        '/:theDay/:factoryId': showChart
+    };
+    var router = Router(routes);
+
     /*map setting*/
     $('#map-canvas').height(window.outerHeight / 2.2);
 
@@ -64,14 +78,11 @@ function initialize() {
             infoText += '<br />地址: ' + this.data['地址'];
             info.setContent(infoText);
             info.open(map, this);
-            $('#title').html(this.data['工廠']);
             map.setZoom(15);
             map.setCenter(this.getPosition());
+            currentFactory = this.data;
             selectedPoint = this.data['管制編號'];
-            showData(selectedPoint);
-            markerClicked = true;
-            $('#pointSelect').val(selectedPoint).trigger('change');
-            markerClicked = false;
+            updateData();
         });
         markers[p['管制編號']] = marker;
         bounds.extend(geoPoint);
@@ -89,6 +100,7 @@ function initialize() {
     });
 
     map.fitBounds(bounds);
+    router.init();
 
     $('a.bounds-reset').click(function () {
         map.fitBounds(bounds);
@@ -142,6 +154,12 @@ function initialize() {
         }
         if (false !== selectedPoint) {
             showData(selectedPoint);
+            window.location.hash = '#' + c + '/' + selectedPoint;
+            $('#title').html(markers[selectedPoint].data['工廠']);
+
+            markerClicked = true;
+            $('#pointSelect').val(selectedPoint).trigger('change');
+            markerClicked = false;
         }
     }
 
