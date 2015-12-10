@@ -44,9 +44,8 @@ function initialize() {
         selectedPoint = factoryId;
         if (!isNaN(dirtyDate.getTime())) {
             currentDate = dirtyDate;
-            updateData();
+            google.maps.event.trigger(markers[selectedPoint], 'click');
         }
-
     };
     var routes = {
         '/:theDay/:factoryId': showChart
