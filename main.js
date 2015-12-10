@@ -59,7 +59,10 @@ function initialize() {
         });
         marker.data = p;
         marker.addListener('click', function () {
-            info.setContent(this.data['工廠']);
+            var infoText = '<strong>' + this.data['工廠'] + '</strong>';
+            infoText += '<br />管制編號: ' + this.data['管制編號'];
+            infoText += '<br />地址: ' + this.data['地址'];
+            info.setContent(infoText);
             info.open(map, this);
             $('#title').html(this.data['工廠']);
             map.setZoom(15);
