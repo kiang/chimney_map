@@ -36,7 +36,7 @@ $.get('http://ks-opendata-community.github.io/chimney/data/警戒值.csv', {}, f
     }
 });
 
-loadCsv('http://ks-opendata-community.github.io/chimney/data/daily/latest.csv');
+loadCsv('http://ks-opendata-community.github.io/chimney/data/daily/latest.csv', 'KHH');
 
 function initialize() {
     var showChart = function (theDay, factoryId) {
@@ -141,13 +141,21 @@ function initialize() {
 
     function updateData() {
         var c = getDateStr(currentDate);
+        var city = markers[selectedPoint].data['city'];
         $('input#selectDate').val(c);
-        if (!loadedData[c]) {
+        if (!loadedData[city]) {
+            loadedData[city] = {};
+        }
+        if (!loadedData[city][c]) {
             var dateParts = c.split('-');
-            var csvUrl = 'http://ks-opendata-community.github.io/chimney/data/daily/' + dateParts[0] + '/' + dateParts[1] + '/' + dateParts[0] + dateParts[1] + dateParts[2] + '.csv';
-            loadCsv(csvUrl);
+            var csvUrl = 'http://ks-opendata-community.github.io/chimney/data/daily/';
+            if(city === 'TXG') {
+                csvUrl += 'taichung/'
+            }
+            csvUrl += dateParts[0] + '/' + dateParts[1] + '/' + dateParts[0] + dateParts[1] + dateParts[2] + '.csv';
+            loadCsv(csvUrl, city);
         } else {
-            data = loadedData[c].slice(0);
+            data = loadedData[city][c].slice(0);
             meta = data[0];
             currentDate = new Date(meta[0]);
             $('input#selectDate').val(meta[0]);
@@ -300,11 +308,14 @@ function initialize() {
     }
 }
 
-function loadCsv(csvUrl) {
+function loadCsv(csvUrl, city) {
     $.get(csvUrl, {}, function (p) {
         data = $.csv.toArrays(p);
         meta = data[0];
-        loadedData[meta[0]] = data.slice(0);
+        if (!loadedData[city]) {
+            loadedData[city] = {};
+        }
+        loadedData[city][meta[0]] = data.slice(0);
         currentDate = new Date(meta[0]);
         if (firstCsv) {
             firstCsv = false;
