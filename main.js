@@ -230,6 +230,7 @@ function initialize() {
                     if (!chartData[chartKey][line[1]]) {
                         chartData[chartKey][line[1]] = {};
                     }
+                    line[3] = '' + line[3];
                     chartData[chartKey][line[1]][line[3]] = parseFloat(line[4]);
                 }
 
