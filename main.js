@@ -149,7 +149,7 @@ function initialize() {
         if (!loadedData[city][c]) {
             var dateParts = c.split('-');
             var csvUrl = 'http://ks-opendata-community.github.io/chimney/data/daily/';
-            if(city === 'TXG') {
+            if (city === 'TXG') {
                 csvUrl += 'taichung/'
             }
             csvUrl += dateParts[0] + '/' + dateParts[1] + '/' + dateParts[0] + dateParts[1] + dateParts[2] + '.csv';
@@ -249,16 +249,23 @@ function initialize() {
                 var chartLines = [], categories = [];
                 var firstPoint = false;
                 for (p in chartData[k]) {
+                    var tkeys = [];
                     var chartLine = {
                         name: p,
                         data: []
                     };
                     for (t in chartData[k][p]) {
+                        tkeys.push(t);
+                    }
+                    tkeys.sort();
+                    for (i in tkeys) {
+                        var t = tkeys[i];
                         chartLine.data.push(chartData[k][p][t]);
                     }
                     if (false === firstPoint) {
                         firstPoint = true;
-                        for (t in chartData[k][p]) {
+                        for (i in tkeys) {
+                            var t = tkeys[i];
                             var ft = t.substr(0, 2) + ':' + t.substr(2, 2);
                             categories.push(ft);
                         }
