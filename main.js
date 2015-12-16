@@ -194,6 +194,7 @@ function initialize() {
         if (!chartType) {
             chartType = 'default';
         }
+        var titleText = markers[currentKey].data['工廠'];
         /*
          * 0: 工廠代號
          * 1: 管制點 [2]
@@ -277,7 +278,7 @@ function initialize() {
                     },
                     xAxis: {
                         title: {
-                            text: getDateStr(currentDate)
+                            text: titleText + ' @ ' + getDateStr(currentDate)
                         },
                         categories: categories
                     },
