@@ -140,6 +140,9 @@ function initialize() {
     });
 
     function updateData() {
+        if(false === selectedPoint) {
+            return;
+        }
         var c = getDateStr(currentDate);
         var city = markers[selectedPoint].data['city'];
         $('input#selectDate').val(c);
