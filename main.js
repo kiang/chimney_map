@@ -152,8 +152,13 @@ function initialize() {
         if (!loadedData[city][c]) {
             var dateParts = c.split('-');
             var csvUrl = 'http://ks-opendata-community.github.io/chimney/data/daily/';
-            if (city === 'TXG') {
-                csvUrl += 'taichung/'
+            switch(city) {
+                case 'TXG':
+                    csvUrl += 'taichung/'
+                    break;
+                case 'ILA':
+                    csvUrl += 'yilan/'
+                    break;
             }
             csvUrl += dateParts[0] + '/' + dateParts[1] + '/' + dateParts[0] + dateParts[1] + dateParts[2] + '.csv';
             loadCsv(csvUrl, city);
@@ -276,7 +281,7 @@ function initialize() {
                     chartLines.push(chartLine);
                 }
                 var subtitle = '';
-                if (standards[currentKey][k]) {
+                if (standards[currentKey] && standards[currentKey][k]) {
                     subtitle = '<a class="pop-standard" href="#" data-id="' + currentKey + '" data-item="' + k + '"> &gt; 排放標準</a>';
                 }
                 $('#' + k).highcharts({
