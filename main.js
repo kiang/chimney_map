@@ -165,6 +165,9 @@ function initialize() {
                 case 'TNN':
                     csvUrl += 'tainan/'
                     break;
+                case 'YUN':
+                    csvUrl += 'yunlin/'
+                    break;
             }
             csvUrl += dateParts[0] + '/' + dateParts[1] + '/' + dateParts[0] + dateParts[1] + dateParts[2] + '.csv';
             loadCsv(csvUrl, city);
