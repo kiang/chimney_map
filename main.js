@@ -140,7 +140,7 @@ function initialize() {
     });
 
     function updateData() {
-        if(false === selectedPoint) {
+        if (false === selectedPoint) {
             return;
         }
         var c = getDateStr(currentDate);
@@ -152,12 +152,18 @@ function initialize() {
         if (!loadedData[city][c]) {
             var dateParts = c.split('-');
             var csvUrl = 'http://ks-opendata-community.github.io/chimney/data/daily/';
-            switch(city) {
+            switch (city) {
                 case 'TXG':
                     csvUrl += 'taichung/'
                     break;
                 case 'ILA':
                     csvUrl += 'yilan/'
+                    break;
+                case 'CYQ':
+                    csvUrl += 'chiayi/'
+                    break;
+                case 'TNN':
+                    csvUrl += 'tainan/'
                     break;
             }
             csvUrl += dateParts[0] + '/' + dateParts[1] + '/' + dateParts[0] + dateParts[1] + dateParts[2] + '.csv';
