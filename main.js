@@ -153,6 +153,9 @@ function initialize() {
             var dateParts = c.split('-');
             var csvUrl = 'http://ks-opendata-community.github.io/chimney/data/daily/';
             switch (city) {
+                case 'KHH':
+                    csvUrl += 'kaohsiung/'
+                    break;
                 case 'TXG':
                     csvUrl += 'taichung/'
                     break;
