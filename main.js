@@ -211,6 +211,7 @@ function initialize() {
     }
 
     function showData(currentKey) {
+        $('#tab-block').show();
         var contentText = '';
         var chartData = {}, defaultChartTypes = ['911', '922', '923', '926'];
         var chartType = $('select#chartFilter').val();
@@ -336,7 +337,39 @@ function initialize() {
             });
         }
 
-
+        // getting reports from https://github.com/kiang/prtr.epa.gov.tw
+        var prefix = currentKey.substr(0, 2);
+        $.getJSON('http://kiang.github.io/prtr.epa.gov.tw/data/' + prefix + '/' + currentKey + '.json', {}, function (c) {
+            var toHideReports = true;
+            for (k in c['reports']) {
+                $('#report-' + k).html('');
+                if (c['reports'][k].length === 0) {
+                    $('#menu-' + k).parent().hide();
+                } else {
+                    $('#menu-' + k).parent().show();
+                    toHideReports = false;
+                    var reportText = '';
+                    c['reports'][k].sort(function(a, b) {
+                        return new Date(b['UPDATETIME']).getTime() - new Date(a['UPDATETIME']).getTime();
+                    });
+                    for(j in c['reports'][k]) {
+                        reportText += '<table class="table table-bordered">';
+                        for(v in c['reports'][k][j]) {
+                            reportText += '<tr>';
+                            reportText += '<td>' + v + '</td><td>' + c['reports'][k][j][v] + '</td>';
+                            reportText += '</tr>';
+                        }
+                        reportText += '</table><br />';
+                    }
+                    $('#report-' + k).html(reportText);
+                }
+            }
+            if(toHideReports) {
+                $('#reportDropdown').hide();
+            } else {
+                $('#reportDropdown').show();
+            }
+        });
     }
 }
 

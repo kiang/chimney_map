@@ -83,7 +83,33 @@
                             <input type="text" id="selectDate" class="col-md-12" />
                         </h2>
                         <h3 id="title">點選地圖圖示檢視資料</h3>
-                        <div id="content"></div>
+                        <div id="tab-block" style="display: none;">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#content" aria-controls="content" role="tab" data-toggle="tab">監測圖表</a></li>
+                                <li role="presentation" class="dropdown" id="reportDropdown">
+                                    <a id="reportDrop" class="dropdown-toggle" aria-controls="reportDropList" data-toggle="dropdown" href="#">其他報表 <span class="caret"></span></a>
+                                    <ul id="reportDropList" class="dropdown-menu" aria-labelledby="reportDrop">
+                                        <li><a id="menu-PENALTY" aria-controls="report-PENALTY" data-toggle="tab" role="tab" href="#report-PENALTY">裁罰記錄</a></li>
+                                        <li><a id="menu-AIR" aria-controls="report-AIR" data-toggle="tab" role="tab" href="#report-AIR">空氣污染</a></li>
+                                        <li><a id="menu-WAT" aria-controls="report-WAT" data-toggle="tab" role="tab" href="#report-WAT">水污染</a></li>
+                                        <li><a id="menu-WAS" aria-controls="report-WAS" data-toggle="tab" role="tab" href="#report-WAS">廢棄物</a></li>
+                                        <li><a id="menu-TOX" aria-controls="report-TOX" data-toggle="tab" role="tab" href="#report-TOX">毒性化學物質</a></li>
+                                        <li><a id="menu-METAL" aria-controls="report-METAL" data-toggle="tab" role="tab" href="#report-METAL">有害空氣污染</a></li>
+                                        <li><a id="menu-GREENHOUSE" aria-controls="report-GREENHOUSE" data-toggle="tab" role="tab" href="#report-GREENHOUSE">溫室氣體</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" id="content"></div>
+                                <div role="tabpanel" class="tab-pane" id="report-PENALTY">裁罰記錄</div>
+                                <div role="tabpanel" class="tab-pane" id="report-AIR">空氣污染</div>
+                                <div role="tabpanel" class="tab-pane" id="report-WAT">水污染</div>
+                                <div role="tabpanel" class="tab-pane" id="report-WAS">廢棄物</div>
+                                <div role="tabpanel" class="tab-pane" id="report-TOX">毒性化學物質</div>
+                                <div role="tabpanel" class="tab-pane" id="report-METAL">有害空氣污染</div>
+                                <div role="tabpanel" class="tab-pane" id="report-GREENHOUSE">溫室氣體</div>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-4 col-sm-12 col-xs-12">
                         圖表過濾：
