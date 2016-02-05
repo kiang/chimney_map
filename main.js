@@ -354,6 +354,11 @@ function initialize() {
                     });
                     reportText += '<h3>' + k + '</h3>';
                     for (j in c['reports'][k]) {
+                        for (v in c['reports'][k][j]) {
+                            if (c['reports'][k][j][v] === null) {
+                                c['reports'][k][j][v] = '-';
+                            }
+                        }
                         reportText += '<table class="table table-bordered">';
                         switch (k) {
                             case 'PENALTY':
@@ -368,10 +373,10 @@ function initialize() {
                                 break;
                             case 'AIR':
                                 reportText += '<tr><td>申報時段</td><td>' + c['reports'][k][j]['STARTDATE'] + ' ~ ' + c['reports'][k][j]['ENDDATE'] + '</td></tr>';
-                                reportText += '<tr><td>揮發性有機物(' + c['reports'][k][j]['ITEMUNIT'] + ')</td><td>' + c['reports'][k][j]['EMIITEM1'] + '</td></tr>';
-                                reportText += '<tr><td>粒狀污染物(' + c['reports'][k][j]['ITEMUNIT'] + ')</td><td>' + c['reports'][k][j]['EMIITEM2'] + '</td></tr>';
-                                reportText += '<tr><td>硫氧化物(' + c['reports'][k][j]['ITEMUNIT'] + ')</td><td>' + c['reports'][k][j]['EMIITEM3'] + '</td></tr>';
-                                reportText += '<tr><td>氮氧化物(' + c['reports'][k][j]['ITEMUNIT'] + ')</td><td>' + c['reports'][k][j]['EMIITEM4'] + '</td></tr>';
+                                reportText += '<tr><td>揮發性有機物</td><td>' + c['reports'][k][j]['EMIITEM1'] + ' ' + c['reports'][k][j]['ITEMUNIT'] + '</td></tr>';
+                                reportText += '<tr><td>粒狀污染物</td><td>' + c['reports'][k][j]['EMIITEM2'] + ' ' + c['reports'][k][j]['ITEMUNIT'] + '</td></tr>';
+                                reportText += '<tr><td>硫氧化物</td><td>' + c['reports'][k][j]['EMIITEM3'] + ' ' + c['reports'][k][j]['ITEMUNIT'] + '</td></tr>';
+                                reportText += '<tr><td>氮氧化物</td><td>' + c['reports'][k][j]['EMIITEM4'] + ' ' + c['reports'][k][j]['ITEMUNIT'] + '</td></tr>';
                                 reportText += '<tr><td>申報狀態</td><td>' + c['reports'][k][j]['PERSTATUS'] + '</td></tr>';
                                 reportText += '<tr><td>資料匯入日期</td><td>' + c['reports'][k][j]['UPDATETIME'] + '</td></tr>';
                                 break;
