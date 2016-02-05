@@ -352,7 +352,30 @@ function initialize() {
                     c['reports'][k].sort(function (a, b) {
                         return new Date(b['UPDATETIME']).getTime() - new Date(a['UPDATETIME']).getTime();
                     });
-                    reportText += '<h3>' + k + '</h3>';
+                    switch (k) {
+                        case 'PENALTY':
+                            reportText += '<h3>裁罰記錄</h3>';
+                            break;
+                        case 'AIR':
+                            reportText += '<h3>空氣污染</h3>';
+                            break;
+                        case 'WAT':
+                            reportText += '<h3>水污染</h3>';
+                            break;
+                        case 'WAS':
+                            reportText += '<h3>廢棄物</h3>';
+                            break;
+                        case 'TOX':
+                            reportText += '<h3>毒性化學物質</h3>';
+                            break;
+                        case 'METAL':
+                            reportText += '<h3>有害空氣污染</h3>';
+                            break;
+                        case 'GREENHOUSE':
+                            reportText += '<h3>溫室氣體</h3>';
+                            break;
+                    }
+                    
                     for (j in c['reports'][k]) {
                         for (v in c['reports'][k][j]) {
                             if (c['reports'][k][j][v] === null) {
