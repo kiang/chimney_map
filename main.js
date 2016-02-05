@@ -352,92 +352,78 @@ function initialize() {
                     c['reports'][k].sort(function (a, b) {
                         return new Date(b['UPDATETIME']).getTime() - new Date(a['UPDATETIME']).getTime();
                     });
+                    reportText += '<h3>' + k + '</h3>';
                     for (j in c['reports'][k]) {
-                        reportText += '<h3>' + c['reports'][k][j]['RPT_TYPE'] + '</h3>';
                         reportText += '<table class="table table-bordered">';
-                        switch (c['reports'][k][j]['RPT_TYPE']) {
+                        switch (k) {
                             case 'PENALTY':
-                                reportText += '<tr>';
-                                reportText += '<td>裁處時間</td><td>' + c['reports'][k][j]['PENALTYDATE'] + '</td>';
-                                reportText += '<td>裁處書字號</td><td>' + c['reports'][k][j]['COUNTYCODE'] + ' ' + c['reports'][k][j]['COUNTY'] + ' ' + c['reports'][k][j]['DOCUMENTNO'] + '</td>';
-                                reportText += '<td>違反時間</td><td>' + c['reports'][k][j]['TRANSGRESSDATE'] + '</td>';
-                                reportText += '<td>違反法令</td><td>' + c['reports'][k][j]['TRANSGRESSLAW'] + '</td>';
-                                reportText += '<td>裁罰金額</td><td>' + c['reports'][k][j]['PENALTYMONEY'] + '</td>';
-                                reportText += '<td>訴願</td><td>' + c['reports'][k][j]['ISPETITION'] + ' ' + c['reports'][k][j]['PETITIONAGENCY'] + +' ' + c['reports'][k][j]['PETITIONRESULTS'] + '</td>';
-                                reportText += '<td>陳情結果</td><td>' + c['reports'][k][j]['APPEALRESCIND'] + '</td>';
-                                reportText += '<td>資料匯入日期</td><td>' + c['reports'][k][j]['UPDATETIME'] + '</td>';
-                                reportText += '</tr>';
+                                reportText += '<tr><td>裁處時間</td><td>' + c['reports'][k][j]['PENALTYDATE'] + '</td></tr>';
+                                reportText += '<tr><td>裁處書字號</td><td>' + c['reports'][k][j]['COUNTYCODE'] + ' ' + c['reports'][k][j]['COUNTY'] + ' ' + c['reports'][k][j]['DOCUMENTNO'] + '</td></tr>';
+                                reportText += '<tr><td>違反時間</td><td>' + c['reports'][k][j]['TRANSGRESSDATE'] + '</td></tr>';
+                                reportText += '<tr><td>違反法令</td><td>' + c['reports'][k][j]['TRANSGRESSLAW'] + '</td></tr>';
+                                reportText += '<tr><td>裁罰金額</td><td>' + c['reports'][k][j]['PENALTYMONEY'] + '</td></tr>';
+                                reportText += '<tr><td>訴願</td><td>' + c['reports'][k][j]['ISPETITION'] + ' ' + c['reports'][k][j]['PETITIONAGENCY'] + +' ' + c['reports'][k][j]['PETITIONRESULTS'] + '</td></tr>';
+                                reportText += '<tr><td>陳情結果</td><td>' + c['reports'][k][j]['APPEALRESCIND'] + '</td></tr>';
+                                reportText += '<tr><td>資料匯入日期</td><td>' + c['reports'][k][j]['UPDATETIME'] + '</td></tr>';
                                 break;
                             case 'AIR':
-                                reportText += '<tr>';
-                                reportText += '<td>申報時段</td><td>' + c['reports'][k][j]['STARTDATE'] + ' ~ ' + c['reports'][k][j]['ENDDATE'] + '</td>';
-                                reportText += '<td>揮發性有機物(' + c['reports'][k][j]['ITEMUNIT'] + ')</td><td>' + c['reports'][k][j]['EMIITEM1'] + '</td>';
-                                reportText += '<td>粒狀污染物(' + c['reports'][k][j]['ITEMUNIT'] + ')</td><td>' + c['reports'][k][j]['EMIITEM2'] + '</td>';
-                                reportText += '<td>硫氧化物(' + c['reports'][k][j]['ITEMUNIT'] + ')</td><td>' + c['reports'][k][j]['EMIITEM3'] + '</td>';
-                                reportText += '<td>氮氧化物(' + c['reports'][k][j]['ITEMUNIT'] + ')</td><td>' + c['reports'][k][j]['EMIITEM4'] + '</td>';
-                                reportText += '<td>申報狀態</td><td>' + c['reports'][k][j]['PERSTATUS'] + '</td>';
-                                reportText += '<td>資料匯入日期</td><td>' + c['reports'][k][j]['UPDATETIME'] + '</td>';
-                                reportText += '</tr>';
+                                reportText += '<tr><td>申報時段</td><td>' + c['reports'][k][j]['STARTDATE'] + ' ~ ' + c['reports'][k][j]['ENDDATE'] + '</td></tr>';
+                                reportText += '<tr><td>揮發性有機物(' + c['reports'][k][j]['ITEMUNIT'] + ')</td><td>' + c['reports'][k][j]['EMIITEM1'] + '</td></tr>';
+                                reportText += '<tr><td>粒狀污染物(' + c['reports'][k][j]['ITEMUNIT'] + ')</td><td>' + c['reports'][k][j]['EMIITEM2'] + '</td></tr>';
+                                reportText += '<tr><td>硫氧化物(' + c['reports'][k][j]['ITEMUNIT'] + ')</td><td>' + c['reports'][k][j]['EMIITEM3'] + '</td></tr>';
+                                reportText += '<tr><td>氮氧化物(' + c['reports'][k][j]['ITEMUNIT'] + ')</td><td>' + c['reports'][k][j]['EMIITEM4'] + '</td></tr>';
+                                reportText += '<tr><td>申報狀態</td><td>' + c['reports'][k][j]['PERSTATUS'] + '</td></tr>';
+                                reportText += '<tr><td>資料匯入日期</td><td>' + c['reports'][k][j]['UPDATETIME'] + '</td></tr>';
                                 break;
                             case 'WAT':
-                                reportText += '<tr>';
-                                reportText += '<td>申報時段</td><td>' + c['reports'][k][j]['EMISTARTDATE'] + ' ~ ' + c['reports'][k][j]['EMIENDDATE'] + '</td>';
-                                reportText += '<td>放流口</td><td>' + c['reports'][k][j]['DISCHARGENO'] + '</td>';
-                                reportText += '<td>檢測項目</td><td>' + c['reports'][k][j]['EMIITEMNAME'] + '</td>';
-                                reportText += '<td>檢測數據</td><td>' + c['reports'][k][j]['EMIITEMVALUE'] + ' ' + c['reports'][k][j]['EMIITEMUNIT'] + '</td>';
-                                reportText += '<td>排放量</td><td>' + c['reports'][k][j]['EMIWATER'] + ' ' + c['reports'][k][j]['EMIWATERITEMUNIT'] + '</td>';
-                                reportText += '<td>資料匯入日期</td><td>' + c['reports'][k][j]['UPDATETIME'] + '</td>';
-                                reportText += '</tr>';
+                                reportText += '<tr><td>申報時段</td><td>' + c['reports'][k][j]['EMISTARTDATE'] + ' ~ ' + c['reports'][k][j]['EMIENDDATE'] + '</td></tr>';
+                                reportText += '<tr><td>放流口</td><td>' + c['reports'][k][j]['DISCHARGENO'] + '</td></tr>';
+                                reportText += '<tr><td>檢測項目</td><td>' + c['reports'][k][j]['EMIITEMNAME'] + '</td></tr>';
+                                reportText += '<tr><td>檢測數據</td><td>' + c['reports'][k][j]['EMIITEMVALUE'] + ' ' + c['reports'][k][j]['EMIITEMUNIT'] + '</td></tr>';
+                                reportText += '<tr><td>排放量</td><td>' + c['reports'][k][j]['EMIWATER'] + ' ' + c['reports'][k][j]['EMIWATERITEMUNIT'] + '</td></tr>';
+                                reportText += '<tr><td>資料匯入日期</td><td>' + c['reports'][k][j]['UPDATETIME'] + '</td></tr>';
                                 break;
                             case 'WAS':
-                                reportText += '<tr>';
-                                reportText += '<td>申報時段</td><td>' + c['reports'][k][j]['EMIYEAR'] + ' / ' + c['reports'][k][j]['EMIMONTH'] + '</td>';
-                                reportText += '<td>廢棄物名稱</td><td>' + c['reports'][k][j]['EMIITEMID'] + ' ' + c['reports'][k][j]['EMIITEMNAME'] + '</td>';
-                                reportText += '<td>廢棄物清理方式</td><td>' + c['reports'][k][j]['CLEANCODE'] + ' ' + c['reports'][k][j]['CLEANNAME'] + '</td>';
-                                reportText += '<td>產出申報量</td><td>' + c['reports'][k][j]['EMIITEMVALUE'] + ' ' + c['reports'][k][j]['EMIITEMUNIT'] + '</td>';
-                                reportText += '<td>申報狀態</td><td>' + c['reports'][k][j]['EMISTATUS'] + '</td>';
-                                reportText += '<td>資料匯入日期</td><td>' + c['reports'][k][j]['UPDATETIME'] + '</td>';
-                                reportText += '</tr>';
+                                reportText += '<tr><td>申報時段</td><td>' + c['reports'][k][j]['EMIYEAR'] + ' / ' + c['reports'][k][j]['EMIMONTH'] + '</td></tr>';
+                                reportText += '<tr><td>廢棄物名稱</td><td>' + c['reports'][k][j]['EMIITEMID'] + ' ' + c['reports'][k][j]['EMIITEMNAME'] + '</td></tr>';
+                                reportText += '<tr><td>廢棄物清理方式</td><td>' + c['reports'][k][j]['CLEANCODE'] + ' ' + c['reports'][k][j]['CLEANNAME'] + '</td></tr>';
+                                reportText += '<tr><td>產出申報量</td><td>' + c['reports'][k][j]['EMIITEMVALUE'] + ' ' + c['reports'][k][j]['EMIITEMUNIT'] + '</td></tr>';
+                                reportText += '<tr><td>申報狀態</td><td>' + c['reports'][k][j]['EMISTATUS'] + '</td></tr>';
+                                reportText += '<tr><td>資料匯入日期</td><td>' + c['reports'][k][j]['UPDATETIME'] + '</td></tr>';
                                 break;
                             case 'TOX':
-                                reportText += '<tr>';
-                                reportText += '<td>申報時段</td><td>' + c['reports'][k][j]['STARTDATE'] + ' ~ ' + c['reports'][k][j]['ENDDATE'] + '</td>';
-                                reportText += '<td>申報類別</td><td>' + c['reports'][k][j]['TOXICTYPE'] + '</td>';
-                                reportText += '<td>毒化物</td><td>' + c['reports'][k][j]['EMIITEMID'] + ' ' + c['reports'][k][j]['TOXICNAME'] + ' ' + c['reports'][k][j]['TOXICENGNAME'] + '</td>';
-                                reportText += '<td>申報量</td><td>' + c['reports'][k][j]['EMIVALUE'] + ' ' + c['reports'][k][j]['ITEMUNIT'] + '</td>';
-                                reportText += '<td>資料匯入日期</td><td>' + c['reports'][k][j]['UPDATETIME'] + '</td>';
-                                reportText += '</tr>';
+                                reportText += '<tr><td>申報時段</td><td>' + c['reports'][k][j]['STARTDATE'] + ' ~ ' + c['reports'][k][j]['ENDDATE'] + '</td></tr>';
+                                reportText += '<tr><td>申報類別</td><td>' + c['reports'][k][j]['TOXICTYPE'] + '</td></tr>';
+                                reportText += '<tr><td>毒化物</td><td>' + c['reports'][k][j]['EMIITEMID'] + ' ' + c['reports'][k][j]['TOXICNAME'] + ' ' + c['reports'][k][j]['TOXICENGNAME'] + '</td></tr>';
+                                reportText += '<tr><td>申報量</td><td>' + c['reports'][k][j]['EMIVALUE'] + ' ' + c['reports'][k][j]['ITEMUNIT'] + '</td></tr>';
+                                reportText += '<tr><td>資料匯入日期</td><td>' + c['reports'][k][j]['UPDATETIME'] + '</td></tr>';
                                 break;
                             case 'METAL':
-                                reportText += '<tr>';
-                                reportText += '<td>檢測日期</td><td>' + c['reports'][k][j]['EXAMODIFYDATE'] + '</td>';
-                                reportText += '<td>煙道編號</td><td>' + c['reports'][k][j]['EMICHIMNEY'] + '</td>';
-                                reportText += '<td>污染物</td><td>' + c['reports'][k][j]['EXAMITEMNAME'] + '</td>';
-                                reportText += '<td>檢測結果</td><td>' + c['reports'][k][j]['EXAMITEMVALUE'] + ' ' + c['reports'][k][j]['EXAMITEMUNIT'] + '</td>';
-                                reportText += '<td>審查狀態／稽查結果</td><td>' + c['reports'][k][j]['EXAMSTATUS'] + '</td>';
-                                reportText += '<td>資料匯入日期</td><td>' + c['reports'][k][j]['UPDATETIME'] + '</td>';
-                                reportText += '</tr>';
+                                reportText += '<tr><td>檢測日期</td><td>' + c['reports'][k][j]['EXAMODIFYDATE'] + '</td></tr>';
+                                reportText += '<tr><td>煙道編號</td><td>' + c['reports'][k][j]['EMICHIMNEY'] + '</td></tr>';
+                                reportText += '<tr><td>污染物</td><td>' + c['reports'][k][j]['EXAMITEMNAME'] + '</td></tr>';
+                                reportText += '<tr><td>檢測結果</td><td>' + c['reports'][k][j]['EXAMITEMVALUE'] + ' ' + c['reports'][k][j]['EXAMITEMUNIT'] + '</td></tr>';
+                                reportText += '<tr><td>審查狀態／稽查結果</td><td>' + c['reports'][k][j]['EXAMSTATUS'] + '</td></tr>';
+                                reportText += '<tr><td>資料匯入日期</td><td>' + c['reports'][k][j]['UPDATETIME'] + '</td></tr>';
                                 break;
                             case 'GREENHOUSE':
-                                reportText += '<tr>';
-                                reportText += '<td>申報年度</td><td>' + c['reports'][k][j]['YEAR'] + '</td>';
-                                reportText += '<td>CO2</td><td>' + c['reports'][k][j]['CO2'] + '</td>';
-                                reportText += '<td>CH4</td><td>' + c['reports'][k][j]['CH4'] + '</td>';
-                                reportText += '<td>N2O</td><td>' + c['reports'][k][j]['N2O'] + '</td>';
-                                reportText += '<td>HFCS</td><td>' + c['reports'][k][j]['HFCS'] + '</td>';
-                                reportText += '<td>PFCS</td><td>' + c['reports'][k][j]['PFCS'] + '</td>';
-                                reportText += '<td>SF6</td><td>' + c['reports'][k][j]['SF6'] + '</td>';
-                                reportText += '<td>間接排放量</td><td>' + c['reports'][k][j]['INDIRECTEMI'] + '</td>';
-                                reportText += '<td>排放總量</td><td>' + c['reports'][k][j]['TOTALEMI'] + '</td>';
-                                reportText += '<td>自願揭露或法規規定</td><td>' + c['reports'][k][j]['ISVOLUNTARY'] + '</td>';
-                                reportText += '<td>是否經查證</td><td>' + c['reports'][k][j]['ISCHECK'] + '</td>';
-                                reportText += '<td>資料匯入日期</td><td>' + c['reports'][k][j]['UPDATETIME'] + '</td>';
-                                reportText += '</tr>';
+                                reportText += '<tr><td>申報年度</td><td>' + c['reports'][k][j]['YEAR'] + '</td></tr>';
+                                reportText += '<tr><td>CO2</td><td>' + c['reports'][k][j]['CO2'] + '</td></tr>';
+                                reportText += '<tr><td>CH4</td><td>' + c['reports'][k][j]['CH4'] + '</td></tr>';
+                                reportText += '<tr><td>N2O</td><td>' + c['reports'][k][j]['N2O'] + '</td></tr>';
+                                reportText += '<tr><td>HFCS</td><td>' + c['reports'][k][j]['HFCS'] + '</td></tr>';
+                                reportText += '<tr><td>PFCS</td><td>' + c['reports'][k][j]['PFCS'] + '</td></tr>';
+                                reportText += '<tr><td>SF6</td><td>' + c['reports'][k][j]['SF6'] + '</td></tr>';
+                                reportText += '<tr><td>間接排放量</td><td>' + c['reports'][k][j]['INDIRECTEMI'] + '</td></tr>';
+                                reportText += '<tr><td>排放總量</td><td>' + c['reports'][k][j]['TOTALEMI'] + '</td></tr>';
+                                reportText += '<tr><td>自願揭露或法規規定</td><td>' + c['reports'][k][j]['ISVOLUNTARY'] + '</td></tr>';
+                                reportText += '<tr><td>是否經查證</td><td>' + c['reports'][k][j]['ISCHECK'] + '</td></tr>';
+                                reportText += '<tr><td>資料匯入日期</td><td>' + c['reports'][k][j]['UPDATETIME'] + '</td></tr>';
                                 break;
                             default:
                             for (v in c['reports'][k][j]) {
                                 reportText += '<tr>';
-                                reportText += '<td>' + v + '</td><td>' + c['reports'][k][j][v] + '</td>';
+                                reportText += '<tr><td>' + v + '</td><td>' + c['reports'][k][j][v] + '</td></tr>';
                                 reportText += '</tr>';
                             }
                         }
