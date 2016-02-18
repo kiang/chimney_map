@@ -174,6 +174,18 @@ function initialize() {
                 case 'CHA':
                     csvUrl += 'changhua/'
                     break;
+                case 'TAO':
+                    csvUrl += 'taoyuan/'
+                    break;
+                case 'TPQ':
+                    csvUrl += 'newtaipei/'
+                    break;
+                case 'TPE':
+                    csvUrl += 'taipei/'
+                    break;
+                case 'HSQ':
+                    csvUrl += 'hsinchu/'
+                    break;
             }
             csvUrl += dateParts[0] + '/' + dateParts[1] + '/' + dateParts[0] + dateParts[1] + dateParts[2] + '.csv';
             loadCsv(csvUrl, city);
