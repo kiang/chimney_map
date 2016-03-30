@@ -296,7 +296,11 @@ function initialize() {
                     tkeys.sort();
                     for (i in tkeys) {
                         var t = tkeys[i];
-                        chartLine.data.push(chartData[k][p][t]);
+                        if(isNaN(chartData[k][p][t])) {
+                            chartLine.data.push(0);
+                        } else {
+                            chartLine.data.push(chartData[k][p][t]);
+                        }
                     }
                     if (false === firstPoint) {
                         firstPoint = true;
@@ -387,7 +391,7 @@ function initialize() {
                             reportText += '<h3>溫室氣體</h3>';
                             break;
                     }
-                    
+
                     for (j in c['reports'][k]) {
                         for (v in c['reports'][k][j]) {
                             if (c['reports'][k][j][v] === null) {
